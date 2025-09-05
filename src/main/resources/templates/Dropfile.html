@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Drop File Bootstrap</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .dropzone {
+      border: 2px dashed #6c757d;
+      border-radius: 10px;
+      padding: 40px;
+      text-align: center;
+      color: #6c757d;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .dropzone.dragover {
+      background-color: #e9ecef;
+      border-color: #0d6efd;
+      color: #0d6efd;
+    }
+  </style>
+</head>
+<body class="p-5">
+
+  <div class="container">
+    <h3 class="mb-3">Subir archivo</h3>
+    
+    <div id="dropzone" class="dropzone">
+      Arrastra y suelta un archivo aquí o haz clic para seleccionar
+      <input type="file" id="fileInput" class="d-none">
+    </div>
+
+    <div id="fileInfo" class="mt-3"></div>
+  </div>
+
+  <script>
+    const dropzone = document.getElementById("dropzone");
+    const fileInput = document.getElementById("fileInput");
+    const fileInfo = document.getElementById("fileInfo");
+
+    // Abrir selector al hacer clic
+    dropzone.addEventListener("click", () => fileInput.click());
+
+    // Drag & drop
+    dropzone.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      dropzone.classList.add("dragover");
+    });
+
+    dropzone.addEventListener("dragleave", () => {
+      dropzone.classList.remove("dragover");
+    });
+
+    dropzone.addEventListener("drop", (e) => {
+      e.preventDefault();
+      dropzone.classList.remove("dragover");
+      const file = e.dataTransfer.files[0];
+      showFile(file);
+    });
+
+    // Selección manual
+    fileInput.addEventListener("change", () => {
+      const file = fileInput.files[0];
+      showFile(file);
+    });
+
+    function showFile(file) {
+      if (file) {
+        fileInfo.innerHTML = `<div class="alert alert-success">
+          Archivo seleccionado: <strong>${file.name}</strong> (${Math.round(file.size / 1024)} KB)
+        </div>`;
+      }
+    }
+  </script>
+</body>
+</html>
+

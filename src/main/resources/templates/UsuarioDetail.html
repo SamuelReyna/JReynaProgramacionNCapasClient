@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+
+    <body layout:fragment="body">
+        <div class="container  ">
+            <div class="row">
+                <div class="col-1 mt-3">
+                    <a class="btn btn-success " th:href="@{/usuario}">
+                        <i class="bi bi-arrow-return-left"></i>
+                    </a>
+                </div>
+                <div class="col-3 mt-3">
+                    <h1 class="fst-italic"> Detalles </h1>
+                </div>
+                <div class="col-2"></div>
+
+                <div class="col-4 mt-3">
+                    <div class="input-group flex-nowrap m-1">
+                        <span class="input-group-text" id="addon-wrapping">
+                            <i class="bi bi-search"></i>
+                        </span>
+                        <input type="text" class="form-control" placeholder="Buscar" aria-label="buscar" aria-describedby="addon-wrapping">
+                    </div>
+                </div>
+                <div class="col-2 mt-3">
+                    <button class="btn text-bg-success m-1" type="button" >
+                        <i class="bi bi-arrow-clockwise"></i>
+                    </button>
+                    <a 
+                        th:href="@{/usuario/Form?(IdUsuario=${usuario.IdUser})}"
+                        class="btn text-bg-primary m-1"
+                        >
+                        <i class="bi bi-plus-circle-fill"></i>
+                    </a>
+                </div>
+
+
+            </div>
+
+
+            <div class="row ">
+                <div class="col-xl-4 col-12 mt-2">
+                    <div class="card shadow mb-2">
+                        <!-- Editar usuario boton -->
+                        <a 
+                            th:href="@{/usuario/Form?(IdUsuario=${usuario.IdUser}, IdDireccion=-1)}"
+                            class="btn  m-1"
+                            >
+                            <i class="bi bi-pencil-square"></i>    
+                        </a>
+                        <div class="card-body text-center">
+
+                            <img th:src="|${(usuario.Img != null) ? 'data:image/jpeg;base64,' + usuario.Img : 'https://www.pngmart.com/files/23/Profile-PNG-Photo.png'}|" class="rounded-circle img-fluid mb-3"
+                                 style="width: 120px; height: 120px; object-fit: cover;" alt="Foto de perfil">
+
+                            <h5 class="card-title fw-bold mb-1"
+                                th:text="|${usuario.nombreUsuario} ${usuario.apellidoPaterno} ${usuario.apellidoMaterno ?: ' '}|">
+                            </h5>
+                            <p class="text-muted mb-2">
+                                <strong>Username:</strong> <span th:text="${usuario.username}"></span>
+                            </p>
+                            <p class="text-muted mb-3">
+                                <strong>Rol:</strong> <span th:text="${usuario.Rol.nombre}"></span>
+                            </p>
+
+                            <h6 class="text-primary fw-bold mt-4">Información de Contacto</h6>
+                            <ul class="list-group list-group-flush text-start mb-3">
+                                <li class="list-group-item">
+                                    <strong>Email:</strong> <span th:text="${usuario.Email}"></span>
+                                </li>
+                                <li class="list-group-item">
+                                    <strong>Tel.:</strong> <span th:text="${usuario.Telefono}"></span>
+                                </li>
+                                <li class="list-group-item">
+                                    <strong>Cel.:</strong> <span th:text="${usuario.Celular}"></span>
+                                </li>
+                            </ul>
+
+                            <h6 class="text-primary fw-bold">Información Personal</h6>
+                            <ul class="list-group list-group-flush text-start">
+                                <li class="list-group-item">
+                                    <strong>CURP:</strong> <span class="text-uppercase   nunito-sans" th:text="${usuario.Curp}"></span>
+                                </li>
+                                <li class="list-group-item">
+                                    <strong>Fecha de Nacimiento:</strong> <span th:text="${usuario.FechaNacimiento}"></span>
+                                </li>
+                                <li class="list-group-item">
+                                    <strong>Sexo:</strong>
+                                    <span th:text="${usuario.Sexo != 'M ' ? 'Femenino' : 'Masculino'}"></span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class=" col-xl-8  col-12 col-sm-12 col-md-12 mt-2">
+                    <div class="table-responsive text-center   ">
+                        <table class="table table-light table-hover rounded shadow mb-2">
+                            <thead class="table-dark">
+                            <th scope="col">Acciones</th>
+                            <th scope="col">Calle</th>
+                            <th scope="col">Número Interior</th>
+                            <th scope="col">Número Exterior</th>
+                            <th scope="col">Colonia</th>
+                            <th scope="col">Codigo Postal</th>
+                            <th scope="col">Municipio</th>
+                            <th scope="col">Estado</th>
+                            <th scope="col">Pais</th>
+                            </thead>
+
+                            <tbody>
+                                <tr th:if="${usuario.Direcciones.size() ==0 }">
+                                    <td colspan="9" class="">Sin Direcciones registradas...</td>
+                                </tr>
+                                <tr th:if="${usuario.Direcciones.size() > null }" th:each="direccion : ${usuario.Direcciones}">
+                                    <td>
+                                        <div class="row">
+                                            <div class="d-flex justify-content-center gap-2">
+                                                <!-- Editar direccion boton -->
+
+                                                <button   th:attr="data-id=${direccion.idDireccion}"
+                                                          class="btn text-bg-danger btnDeleteDireccion">
+                                                    <i class="bi bi-trash-fill"></i>
+                                                </button>
+                                                <a   th:href="@{/usuario/Form?(IdUsuario=${usuario.IdUser}, IdDireccion=${direccion.idDireccion})}"
+                                                     class="btn text-bg-warning">
+                                                    <i class="bi bi-pencil-fill"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td th:text="${direccion.calle}"> </td>
+                                    <td th:text="${direccion.numeroExterior}"> </td>
+                                    <td th:text="${direccion.numeroInterior}"> </td>
+                                    <td th:text="${direccion.Colonia.nombre}"> </td>
+                                    <td th:text="${direccion.Colonia.codigoPostal}"></td>
+                                    <td th:text="${direccion.Colonia.Municipio.nombre}"> </td>
+                                    <td th:text="${direccion.Colonia.Municipio.Estado.nombre}"> </td>
+                                    <td th:text="${direccion.Colonia.Municipio.Estado.Pais.nombre}"> </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            $(document).on('click', '.btnDeleteDireccion', function () {
+                let id = $(this).data("id");
+                console.log("boton presionado " + id);
+                fetch(`http://localhost:8080/api/direccion/${id}`, {
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    method: "DELETE"
+                }).then(res => {
+                    if (res.status === 200) {
+                        console.log("Eliminado con éxito");
+                        $(this).closest("tr").remove();
+                    } else {
+                        console.error("Error al eliminar");
+                    }
+                }).catch(err => console.error("Error en fetch:", err));
+            });
+        </script>
+    </body>
+
+
+
+</html>

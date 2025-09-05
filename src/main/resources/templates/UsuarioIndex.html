@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+
+    <body layout:fragment="body">
+        <div class="container cormorant-garamond">
+            <div class="row align-items-center m-1">
+<!--                <form  method="POST" class="row" th:object="${usuario}" th:action="@{/usuario}">
+                    <div class="col-2">
+                        <h3 class="fst-italic fw-bold">Usuarios</h3>
+                    </div>
+                    <div class="col-2">
+                        <div class="input-group flex-nowrap m-1">
+                            <input type="text" class="form-control" th:field="*{NombreUsuario}" placeholder="Nombre">
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="input-group flex-nowrap m-1">
+                            <input type="text" class="form-control" th:field="*{ApellidoPaterno}" placeholder="Apellido Paterno">
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="input-group flex-nowrap m-1">
+                            <input type="text" class="form-control" th:field="*{ApellidoMaterno}" placeholder="Apellido Materno">
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <select class="form-select flex-nowrap m-1" id="rol" th:field="*{Rol.IdRol}">
+                            <option value="0" selected>Rol</option>
+                            <option th:each="role : ${Roles}" th:text="${role.NombreRol}" th:value="${role.IdRol}"></option>
+                        </select>
+                    </div>
+                </form>-->
+
+                <div class="col-2">
+                    <button class="btn text-bg-secondary" type="submit">
+                        <i class="bi bi-search"></i>
+                        </span>
+                    </button>
+                    <a class="btn text-bg-success m-1">
+                        <i class="bi bi-arrow-clockwise"></i>
+                    </a>
+                    <a th:href="@{/usuario/Form}"
+                       class="btn text-bg-primary m-1">
+                        <i class="bi bi-plus-circle-fill"></i>
+                    </a>
+                </div>
+
+            </div>
+
+
+            <div class="row mt-3">
+                <div class="table-responsive ">
+                    <table
+                        class="table table-light table-hover table-bordered align-middle text-center rounded shadow mb-2"
+                        >
+                        <thead class="table-dark">
+                            <tr>
+                                <th scope="col">Acciones</th>
+                                <th scope="col">Estatus</th>
+
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Username</th>
+                                <th scope="col">Datos de contacto</th>
+                                <th scope="col">Datos personales</th>
+                                <th scope="col">Rol</th>
+                                <th scope="col">Direcciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                th:if="${usuarios.size() > 0}"
+                                th:each="usuario : ${usuarios}"
+                                >
+                                <td>
+                                    <div class="d-flex justify-content-center gap-2">
+                                        <a
+                                            th:href="@{/usuario/Detalles/{IdUsuario}(IdUsuario=${usuario.idUser})}"
+                                            class="btn btn-warning btn-sm"
+                                            title="Editar"
+                                            >
+                                            <i class="bi bi-pencil-fill"></i>
+                                        </a>
+                                        <button   th:attr="data-id=${usuario.idUser}"
+                                                  class="btn text-bg-danger btnDeleteUsuario">
+                                            <i class="bi bi-trash-fill"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td> 
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input togglestatus" th:attr="data-id=${usuario.idUser}"    th:checked="${usuario.Estatus}" type="checkbox" id="flexSwitchCheckDefault">
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <div class="d-flex flex-column align-items-center">
+                                        <img th:src="|${(usuario.Img != null || usuario.Img == '') ? 'data:image/jpeg;base64,' + usuario.Img : 'https://www.pngmart.com/files/23/Profile-PNG-Photo.png'}|"
+                                             class="rounded-circle img-fluid mb-2"
+                                             style="width: 120px; height: 120px; object-fit: cover;"
+                                             alt="Foto de perfil">
+                                        <span th:text="|${usuario.NombreUsuario} ${usuario.ApellidoPaterno} ${usuario.ApellidoMaterno ?: ''}|"></span>
+                                    </div>
+                                </td>
+
+                                <td th:text="${usuario.Username}"></td>
+                                <td>
+                                    <p>
+                                        <strong>Email:</strong>
+                                        <span th:text="${usuario.Email}"></span>
+                                    </p>
+                                    <p>
+                                        <strong>Tel.:</strong>
+                                        <span th:text="${usuario.Telefono}"></span>
+                                    </p>
+                                    <p>
+                                        <strong>Cel.:</strong>
+                                        <span th:text="${usuario.Celular}"></span>
+                                    </p>
+                                </td>
+                                <td>
+                                    <p>
+                                        <strong>CURP:</strong>
+                                        <span class="nunito-sans text-uppercase" th:text="${usuario.Curp}"></span>
+                                    </p>
+                                    <p>
+                                        <strong>Fecha Nac.:</strong>
+                                        <span th:text="${usuario.FechaNacimiento}"></span>
+                                    </p>
+                                    <p>
+                                        <strong>Sexo:</strong>
+                                        <span
+                                            th:text="${usuario.Sexo != 'M' ? 'Femenino' : 'Masculino'}"
+                                            ></span>
+                                    </p>
+                                </td>
+                                <td th:text="${usuario.Rol.nombre}"></td>
+                                <td>
+                                    <div th:if="${usuario.Direcciones.size() > 0}">
+                                        <div
+                                            th:each="direccion : ${usuario.Direcciones}"
+                                            class="mb-2 border-bottom pb-2"
+                                            >
+                                            <p>
+                                                <strong>Calle:</strong>
+                                                <span th:text="${direccion.Calle}"></span>
+                                            </p>
+                                            <p>
+                                                <strong>Num. Int:</strong>
+                                                <span th:text="${direccion.NumeroInterior}"></span>
+                                            </p>
+                                            <p>
+                                                <strong>Num. Ext:</strong>
+                                                <span th:text="${direccion.NumeroExterior}"></span>
+                                            </p>
+                                            <p>
+                                                <strong>Colonia:</strong>
+                                                <span th:text="${direccion.Colonia.nombre}"></span>
+                                            </p>
+                                            <p>
+                                                <strong>Ubicación:</strong>
+                                                <span
+                                                    th:text="${direccion.Colonia.Municipio.nombre}"
+                                                    ></span
+                                                >,
+                                                <span
+                                                    th:text="${direccion.Colonia.Municipio.Estado.nombre}"
+                                                    ></span
+                                                >,
+                                                <span
+                                                    th:text="${direccion.Colonia.Municipio.Estado.Pais.nombre}"
+                                                    ></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div th:if="${usuario.Direcciones.size() == 0}">
+                                        <span class="text-muted">Sin direcciones registradas</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Modal de confirmación -->
+            <div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Confirmar acción</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                        </div>
+                        <div class="modal-body">
+                            ¿Seguro que quieres actualizar el estatus de este usuario?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" id="confirmCancel" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-primary" id="confirmYes">Sí, actualizar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contenedor para alertas -->
+            <div id="alert-container" class="mt-3"></div>
+
+
+        </div>
+        <script>
+            $(document).on('click', '.btnDeleteUsuario', function () {
+                let id = $(this).data("id");
+                console.log("boton presionado " + id);
+                fetch(`http://localhost:8080/api/usuario/${id}`, {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                }).then(res => {
+                    if (res.status === 200) {
+                        console.log("Eliminado con éxito");
+                        $(this).closest("tr").remove();
+                    } else {
+                        console.error("Error al eliminar");
+                    }
+                }).catch(err => console.error("Error en fetch:", err));
+            });
+
+            let userIdToUpdate = null;
+            let checkboxChanged = null;
+            let prevState = false;
+
+// Cuando cambia el checkbox
+            $(document).on('change', '.togglestatus', function () {
+                userIdToUpdate = $(this).data("id");
+                checkboxChanged = this;              // guardamos referencia al checkbox
+                prevState = !this.checked;           // guardamos el estado anterior (inverso porque ya cambió)
+                $('#confirmModal').modal('show');    // abrir modal
+            });
+
+// Si confirma
+            $('#confirmYes').on('click', function () {
+                if (!userIdToUpdate)
+                    return;
+
+                $.ajax({
+                    url: `http://localhost:8080/api/usuario/estatus/${userIdToUpdate}`,
+                    method: 'PATCH',
+                    success: function (data, textStatus, xhr) {
+                        if (xhr.status === 204) {
+                            $('#alert-container').html(`
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        ✅ Estatus actualizado correctamente.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                `);
+                        } else {
+                            $('#alert-container').html(`
+                    <div class="alert alert-info alert-dismissible fade show" role="alert">
+                        📌 Respuesta con datos: ${JSON.stringify(data)}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                `);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        $('#alert-container').html(`
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    ❌ Error en la solicitud: ${error}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            `);
+                        // Si falla, revertimos también
+                        if (checkboxChanged)
+                            checkboxChanged.checked = prevState;
+                    }
+                });
+
+                $('#confirmModal').modal('hide');
+                userIdToUpdate = null;
+                checkboxChanged = null;
+            });
+
+// Si cancela
+            $('#confirmModal').on('hidden.bs.modal', function () {
+                if (!confirmed && checkboxChanged) {
+                    checkboxChanged.checked = prevState; // revertimos estado
+                }
+                // limpiar variables
+                userIdToUpdate = null;
+                checkboxChanged = null;
+                prevState = false;
+            });
+
+
+        </script>
+
+
+    </body>
+</html>
