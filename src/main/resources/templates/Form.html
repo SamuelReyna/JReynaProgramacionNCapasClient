@@ -144,10 +144,9 @@
 
                     <!-- ================= DIRECCIÓN ================= -->
                     <div class="direccion row g-3"
-                         th:if="${(usuario.IdUser != 0 && usuario.Direcciones[0].IdDireccion == 0)
+                         th:if="${(usuario.IdUser != 0 && usuario.Direcciones[0].IdDireccion != -1)
                          || (usuario.IdUser == 0 && usuario.Direcciones[0].IdDireccion == 0 )
-                         || (usuario.IdUser != 0 && usuario.Direcciones[0].IdDireccion != 0 )
-                         
+                         || (usuario.IdUser > 0 && usuario.Direcciones[0].IdDireccion > 0 )
                          }">
 
                         <h5 
