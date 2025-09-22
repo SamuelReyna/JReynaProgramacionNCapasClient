@@ -451,7 +451,7 @@
                                             .append(
                                                     '<option value="0" selected disabled >Estado</option>'
                                                     );
-                                    $.each(data.objects, function (indice, estado) {
+                                    $.each(data.object, function (indice, estado) {
                                         $("#estado").append(
                                                 `<option value='${estado.idEstado}'>${estado.nombre}</option>`
                                                 );
@@ -475,7 +475,7 @@
                                             .append(
                                                     '<option value="0" selected disabled >Municipio</option>'
                                                     );
-                                    $.each(data.objects, function (indice, municipio) {
+                                    $.each(data.object, function (indice, municipio) {
                                         $("#municipio").append(
                                                 `<option value='${municipio.idMunicipio}'>${municipio.nombre}</option>`
                                                 );
@@ -500,7 +500,7 @@
                                             .append(
                                                     '<option value="0" selected disabled >Colonia</option>'
                                                     );
-                                    $.each(data.objects, function (indice, colonia) {
+                                    $.each(data.object, function (indice, colonia) {
                                         $("#colonia").append(
                                                 `<option value='${colonia.idColonia}'>${colonia.nombre}</option>`
                                                 );
@@ -546,7 +546,7 @@
                         url: "http://localhost:8080/api/rol",
                         type: "GET",
                         success: function (response) {
-                            $.each(response.objects, function (indice, rol) {
+                            $.each(response.object, function (indice, rol) {
                                 $('#rol').append(
                                         `<option value='${rol.idRol}'>${rol.nombre}</option>`
                                         );
@@ -562,7 +562,7 @@
                         url: "http://localhost:8080/api/pais",
                         type: "GET",
                         success: function (response) {
-                            $.each(response.objects, function (indice, pais) {
+                            $.each(response.object, function (indice, pais) {
                                 $('#pais').append(
                                         `<option value='${pais.idPais}'>${pais.nombre}</option>`
                                         );
@@ -578,7 +578,7 @@
                         url: "http://localhost:8080/api/estado",
                         type: "GET",
                         success: function (response) {
-                            $.each(response.objects, function (indice, estado) {
+                            $.each(response.object, function (indice, estado) {
                                 $('#estado').append(
                                         `<option value='${estado.idEstado}'>${estado.nombre}</option>`
                                         );
@@ -594,7 +594,7 @@
                         url: "http://localhost:8080/api/municipio",
                         type: "GET",
                         success: function (response) {
-                            $.each(response.objects, function (indice, municipio) {
+                            $.each(response.object, function (indice, municipio) {
                                 $('#municipio').append(
                                         `<option value='${municipio.idMunicipio}'>${municipio.nombre}</option>`
                                         );
@@ -611,7 +611,7 @@
                         type: "GET",
                         success: function (response) {
                             console.log(response);
-                            $.each(response.objects, function (indice, colonia) {
+                            $.each(response.object, function (indice, colonia) {
                                 $('#colonia').append(
                                         `<option value='${colonia.idColonia}'>${colonia.nombre} </option>`
                                         );
