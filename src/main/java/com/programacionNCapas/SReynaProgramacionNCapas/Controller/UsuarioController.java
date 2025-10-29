@@ -44,24 +44,31 @@ public class UsuarioController {
     private final String url = "http://localhost:8080/api/";
 
     @GetMapping
-    public String Index(Model model) {
+    public String Index(Model model, HttpSession http) {
 
         RestTemplate restTemplate = new RestTemplate();
 
+        HttpHeaders headers = new HttpHeaders();
+
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+        headers.set("Authorization", "Bearer " + http.getAttribute("token"));
         ResponseEntity<Result<List<UsuarioML>>> responseEntity
                 = restTemplate.exchange(url + "usuario",
                         HttpMethod.GET,
-                        HttpEntity.EMPTY,
+                        entity,
                         new ParameterizedTypeReference<Result<List<UsuarioML>>>() {
                 });
 
         if (responseEntity.getStatusCode() == HttpStatusCode.valueOf(200)) {
 
             Result result = responseEntity.getBody();
+
             List<UsuarioML> listUsuarios = (List<UsuarioML>) result.object;
 
             if (result.correct) {
                 model.addAttribute("usuarios", listUsuarios);
+                model.addAttribute("token", http.getAttribute("token"));
             } else {
                 model.addAttribute("usuarios", null);
             }
@@ -279,7 +286,6 @@ public class UsuarioController {
                 if (result.correct) {
                     return "redirect:/usuario/Detalles/" + idUsuario;
                 }
-
             }
         }
 

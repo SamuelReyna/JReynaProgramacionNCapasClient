@@ -3,7 +3,9 @@
 Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
 Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
 -->
-<html>
+<html       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+
+            >
     <head>
         <title>Formulario</title>
         <meta charset="UTF-8" />
@@ -36,7 +38,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
             href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap"
             rel="stylesheet"
             />
-        <link rel="stylesheet" href="style.css" type="text/css" />
 
         <style>
             .cormorant-garamond {
@@ -75,21 +76,38 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
 
 
     <header>
-        <nav class="navbar navbar-expand-lg navbar-light border-bottom shadow-sm" style="background-color: #ffffff;">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm">
+            <div class="container">
+                <a class="navbar-brand fw-bold nunito-sans" href="/usuario">
+                    <i class="bi bi-house-fill"></i> Usuarios
+                </a>
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarMinimal"
+                    aria-controls="navbarMinimal"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                    >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-
-
-            <div class="collapse navbar-collapse" id="navbarMinimal">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" href="/usuario">
-                            <i class="bi bi-house"></i> </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" href="/usuario/cargamasiva">Carga Masiva</a>
-                    </li>
-
-                </ul>
+                <div class="collapse navbar-collapse" id="navbarMinimal">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item" sec:authorize="hasAnyRole('ADMIN')">
+                            <a class="nav-link text-dark" href="/usuario/cargamasiva">Carga Masiva</a>
+                        </li>
+                        <li class="nav-item" sec:authorize="hasAnyRole('ADMIN')">
+                            <a class="nav-link text-dark" href="/usuario/encriptar">Encriptar Contraseñas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" th:href="@{/logout}">
+                                <i class="bi bi-box-arrow-right"></i> Cerrar sesión
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </nav>
     </header>

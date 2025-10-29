@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Verificando tu cuenta - Verificar</title>
+        <style>
+            body {
+                background-color: #f5f6fa;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                height: 100vh;
+                margin: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                color: #2f3640;
+            }
+
+            .spinner {
+                border: 6px solid #dcdde1;
+                border-top: 6px solid #0097e6;
+                border-radius: 50%;
+                width: 60px;
+                height: 60px;
+                animation: spin 1s linear infinite;
+            }
+
+            @keyframes spin {
+                0% {
+                    transform: rotate(0deg);
+                }
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+
+            h2 {
+                margin-top: 20px;
+                font-weight: 500;
+                color: #353b48;
+            }
+
+            p {
+                color: #718093;
+                font-size: 15px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="spinner"></div>
+        <h2>Verificando tu cuenta...</h2>
+        <p>Por favor, revisa tu correo electrónico.</p>
+
+    </body>
+</html>

@@ -29,7 +29,7 @@
                     <div class="col-2">
                         <select class="form-select flex-nowrap m-1" name="rol" id="rol">
                             <option value="0" selected>Rol</option>
-                            
+
                         </select>
                     </div>
 
@@ -206,11 +206,18 @@
 
 
         </div>
-        <script>
+        <script th:inline="javascript">
+            const token = /*[[${token}]]*/ '';
             $(document).ready(function () {
+
+
                 $.ajax({
                     url: "http://localhost:8080/api/rol",
                     type: "GET",
+                    headers: {
+                        "Authorization": "Bearer " + token,
+                        "Content-Type": "application/json"
+                    },
                     success: function (response) {
                         $.each(response.objects, function (indice, rol) {
                             $('#rol').append(
@@ -229,6 +236,7 @@
                 fetch(`http://localhost:8080/api/usuario/${id}`, {
                     method: "DELETE",
                     headers: {
+                        "Authorization": "Bearer " + token,
                         "Content-Type": "application/json"
                     }
                 }).then(res => {
